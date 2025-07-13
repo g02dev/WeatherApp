@@ -1,7 +1,7 @@
 ### Changes
 - 
 
-### Before / After
+### Screenshots
 [before]: <!--- put image url here -->
 [after]: <!--- put image url here -->
 
