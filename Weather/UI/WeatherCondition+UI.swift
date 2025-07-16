@@ -41,21 +41,22 @@ extension WeatherCondition {
     }
     
     var systemImagePalette: SystemImagePalette {
-        switch self {
+        let gray = Color(uiColor: .lightGray)
+        return switch self {
         case .unknown:
-            SystemImagePalette(primary: .secondary, secondary: .secondary)
+            SystemImagePalette(primary: gray, secondary: gray)
         case .thunderstorm:
-            SystemImagePalette(primary: .secondary, secondary: .yellow)
+            SystemImagePalette(primary: gray, secondary: .yellow)
         case .drizzle:
-            SystemImagePalette(primary: .secondary, secondary: .blue)
+            SystemImagePalette(primary: gray, secondary: .blue)
         case .rain:
-            SystemImagePalette(primary: .secondary, secondary: .blue)
+            SystemImagePalette(primary: gray, secondary: .blue)
         case .snow:
-            SystemImagePalette(primary: .secondary, secondary: .blue)
+            SystemImagePalette(primary: gray, secondary: .blue)
         case .clear:
             SystemImagePalette(primary: .yellow)
         case .clouds:
-            SystemImagePalette(primary: .secondary)
+            SystemImagePalette(primary: gray)
         }
     }
 }

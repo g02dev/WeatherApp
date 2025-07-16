@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LocationsListView: View {
+struct LocationsList: View {
     @Binding var selectedLocation: Location?
     
     var body: some View {
@@ -17,5 +17,5 @@ struct LocationsListView: View {
 
 #Preview {
     @Previewable @State var selectedLocation: Location?
-    LocationsListView(selectedLocation: $selectedLocation)
+    LocationsList(selectedLocation: $selectedLocation)
 }

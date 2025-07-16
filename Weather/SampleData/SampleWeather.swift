@@ -5,6 +5,40 @@ enum SampleWeather {
         let sampleLocation = SampleLocations.allCases.first { $0.location == location }
         return sampleLocation?.currentWeather
     }
+    
+    static func weatherForecast(for location: Location) -> [Weather] {
+        let timestamp = Date.now
+        let timeZone = TimeZone(identifier: "Europe/London")!
+        let temperatures = [11, 12, 8, 20, -14, 18, 10]
+        let conditions = [
+            WeatherCondition.clouds,
+            .rain,
+            .thunderstorm,
+            .clear,
+            .snow,
+            .clouds,
+            .drizzle
+        ]
+        
+        let forecast: [Weather] = zip(temperatures, conditions)
+            .enumerated()
+            .compactMap { (index, weatherData) in
+                guard let currentTimestamp = Calendar.current.date(
+                    byAdding: .hour,
+                    value: index * 3,
+                    to: timestamp
+                ) else { return nil }
+                
+                let (temperature, condition) = weatherData
+                return Weather(
+                    timestamp: currentTimestamp,
+                    timezone: timeZone,
+                    temperature: temperature,
+                    condition:  condition
+                )
+            }
+        return forecast
+    }
 }
 
 private extension SampleLocations {
