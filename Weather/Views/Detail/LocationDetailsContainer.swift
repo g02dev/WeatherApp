@@ -8,7 +8,7 @@ struct LocationDetailsContainer<Content: View>: View {
             ForEach(subviews: content) { subview in
                 if let title = subview.containerValues.sectionTitle {
                     Text(title)
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.bold)
                 }
                 

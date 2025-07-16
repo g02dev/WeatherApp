@@ -65,6 +65,6 @@ struct FavouriteLocationRow: View {
 
 #Preview("Unknown weather") {
     List {
-        FavouriteLocationRow(location: SampleLocations.unknownLocation)
+        FavouriteLocationRow(location: SampleLocations.unknown.location)
     }
 }

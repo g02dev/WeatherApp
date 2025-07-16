@@ -13,16 +13,23 @@ struct WeatherForecastSection: View {
                 }
             }
         }
-        .scrollIndicators(.hidden)
         .sectionTitle("5 Day Forecast")
-        .task {
+        .scrollIndicators(.hidden)
+        .onChange(of: location, initial: true) {
             forecast = SampleWeather.weatherForecast(for: location)
         }
     }
 }
 
-#Preview {
+#Preview("Known weather") {
     let location = SampleLocations.newYork.location
+    LocationDetailsContainer {
+        WeatherForecastSection(location: location)
+    }
+}
+
+#Preview("Unknown weather") {
+    let location = SampleLocations.unknown.location
     LocationDetailsContainer {
         WeatherForecastSection(location: location)
     }
