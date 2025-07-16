@@ -5,9 +5,19 @@ struct LocationsList: View {
     
     var body: some View {
         List(selection: $selectedLocation) {
-            let favouriteLocations = SampleLocations.allLocations
-            ForEach(favouriteLocations, id: \.self) { location in
-                FavouriteLocationRow(location: location)
+            Section {
+                let favouriteLocations = SampleLocations.favouriteLocations
+                ForEach(favouriteLocations) { location in
+                    FavouriteLocationRow(location: location)
+                }
+            } header: {
+                Text("Favourites")
+                    .textCase(nil)
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.primary)
+                    .listRowInsets(EdgeInsets.init())
+                    .padding(.vertical)
             }
         }
         .listRowSpacing(8)

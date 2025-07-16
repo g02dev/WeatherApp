@@ -7,6 +7,10 @@ enum SampleWeather {
     }
     
     static func weatherForecast(for location: Location) -> [Weather] {
+        guard location != SampleLocations.unknown.location else {
+            return []
+        }
+        
         let timestamp = Date.now
         let timeZone = TimeZone(identifier: "Europe/London")!
         let temperatures = [11, 12, 8, 20, -14, 18, 10]
@@ -42,8 +46,10 @@ enum SampleWeather {
 }
 
 private extension SampleLocations {
-    var currentWeather: Weather {
+    var currentWeather: Weather? {
         switch self {
+        case .unknown:
+            nil
         case .london:
             Weather(
                 timestamp: .now,
@@ -106,6 +112,13 @@ private extension SampleLocations {
                 timezone: TimeZone(identifier: "Australia/Sydney")!,
                 temperature: 25,
                 condition: .unknown
+            )
+        case .lisbon:
+            Weather(
+                timestamp: .now,
+                timezone: TimeZone(identifier: "Europe/Lisbon")!,
+                temperature: 15,
+                condition: .clear
             )
         }
     }

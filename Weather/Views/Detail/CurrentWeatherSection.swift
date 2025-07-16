@@ -18,18 +18,25 @@ struct CurrentWeatherSection: View {
                 .frame(width: imageSize, height: imageSize)
             Text("\(weather?.temperature ?? 0)°")
         }
+        .sectionTitle("Now")
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .font(.system(size: fontSize))
         .fontWeight(.bold)
-        .sectionTitle("Now")
-        .task {
+        .onChange(of: location, initial: true) {
             weather = SampleWeather.currentWeather(for: location)
         }
     }
 }
 
-#Preview {
+#Preview("Known weather") {
     let location = SampleLocations.newYork.location
+    LocationDetailsContainer {
+        CurrentWeatherSection(location: location)
+    }
+}
+
+#Preview("Unknown weather") {
+    let location = SampleLocations.unknown.location
     LocationDetailsContainer {
         CurrentWeatherSection(location: location)
     }
