@@ -5,10 +5,14 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            LocationsListView(selectedLocation: $selectedLocation)
+            LocationsList(selectedLocation: $selectedLocation)
                 .navigationTitle("Weather")
         } detail: {
-            Text(selectedLocation?.name ?? "Select a location")
+            if let selectedLocation {
+                LocationDetailsView(location: selectedLocation)
+            } else {
+                Text("Select a location")
+            }
         }
     }
 }

@@ -37,4 +37,27 @@ struct DateFormattingTests {
         // Then
         #expect(localTime == expectedLocalTime)
     }
+    
+    @Test(arguments: [
+        ("2025-01-01T00:01:00+00:00", "Europe/London", "en_UK", "Wed"), // Standard time, UTC+0
+        ("2025-06-01T19:59:59+00:00", "Europe/Paris", "fr_FR", "dim."), // Summer time, UTC+2
+        ("2025-06-01T23:59:59+00:00", "Europe/Paris", "fr_FR", "lun."), // Summer time, UTC+2
+    ])
+    func dayOfTheWeek(
+        rawDate: String,
+        rawLocalTimeZoneID: String,
+        rawLocaleID: String,
+        expectedDayOfTheWeek: String
+    ) throws {
+        // Given
+        let date = try DateParser.parseISO8601Date(rawDate)
+        let timeZone = try #require(TimeZone(identifier: rawLocalTimeZoneID))
+        let locale = Locale(identifier: rawLocaleID)
+        
+        // When
+        let dayOfTheWeek = DateFormatting.dayOfTheWeek(date: date, timeZone: timeZone, locale: locale)
+        
+        // Then
+        #expect(dayOfTheWeek == expectedDayOfTheWeek)
+    }
 }

@@ -9,4 +9,12 @@ enum DateFormatting {
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
     }
+    
+    static func dayOfTheWeek(date: Date, timeZone: TimeZone, locale: Locale = .current) -> String {
+        let dateFormat = Date.FormatStyle(
+            locale: locale,
+            timeZone: timeZone
+        ).weekday(.abbreviated)
+        return dateFormat.format(date)
+    }
 }
