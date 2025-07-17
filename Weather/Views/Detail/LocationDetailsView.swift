@@ -32,7 +32,7 @@ struct LocationDetailsView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(SampleWeatherProvider())) {
     let location = SampleLocations.newYork.location
     LocationDetailsView(location: location)
 }

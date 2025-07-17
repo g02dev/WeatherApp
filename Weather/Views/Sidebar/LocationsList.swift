@@ -25,7 +25,7 @@ struct LocationsList: View {
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(SampleWeatherProvider())) {
     @Previewable @State var selectedLocation: Location?
     LocationsList(selectedLocation: $selectedLocation)
 }

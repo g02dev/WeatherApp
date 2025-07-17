@@ -44,6 +44,6 @@ struct ContentView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(SampleWeatherProvider())) {
     ContentView()
 }
