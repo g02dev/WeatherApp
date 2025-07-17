@@ -3,6 +3,7 @@ import SwiftUI
 struct FavouriteLocationRow: View {
     let location: Location
     
+    @Environment(WeatherProvider.self) var weatherProvider
     @State private var currentWeather: Weather?
     
     var body: some View {
@@ -12,7 +13,7 @@ struct FavouriteLocationRow: View {
             trailingWeatherInfo
         }
         .task {
-            currentWeather = SampleWeather.currentWeather(for: location)
+            currentWeather = await weatherProvider.currentWeather(for: location)
         }
     }
     
@@ -57,13 +58,13 @@ struct FavouriteLocationRow: View {
     }
 }
 
-#Preview("Known weather") {
+#Preview("Known weather", traits: .modifier(SampleWeatherProvider())) {
     List {
         FavouriteLocationRow(location: SampleLocations.newYork.location)
     }
 }
 
-#Preview("Unknown weather") {
+#Preview("Unknown weather", traits: .modifier(SampleWeatherProvider())) {
     List {
         FavouriteLocationRow(location: SampleLocations.unknown.location)
     }

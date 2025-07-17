@@ -1,0 +1,26 @@
+import Foundation
+import Testing
+@testable import Weather
+
+struct WeatherClientTests {
+    
+    @Test
+    func getCurrentWeather() async throws {
+        let sampleDataLoader = SampleHTTPDataLoader(type: .currentWeather)
+        let weatherClient = WeatherClient(dataLoader: sampleDataLoader)
+        let expectedCurrentWeather = Weather(
+            timestamp: Date(timeIntervalSince1970: 1726660758),
+            timezone: try #require(TimeZone(secondsFromGMT: 7200)),
+            temperature: 284,
+            condition: .rain
+        )
+        
+        let currentWeather = try? await weatherClient.getCurrentWeather(
+            latitude: 7.367,
+            longitude: 45.133,
+            unitTemperature: .kelvin
+        )
+        
+        #expect(currentWeather == expectedCurrentWeather)
+    }
+}
