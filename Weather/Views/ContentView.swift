@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(WeatherProvider.self) var weatherProvider
     @State private var searchText: String = ""
     @State private var foundLocations: [Location] = []
     
@@ -20,13 +21,19 @@ struct ContentView: View {
             }
             .navigationTitle("Weather")
             .searchable(text: $searchText)
-            .onChange(of: searchText) {
+            .task(id: searchText) {
                 if searchText.isEmpty {
                     foundLocations = []
                 } else {
-                    foundLocations = SampleLocations.foundLocations(
-                        query: searchText
-                    )
+                    try? await Task.sleep(for: .seconds(1))
+                    
+                    guard !Task.isCancelled else { return }
+                    
+                    let newFoundLocations = await weatherProvider.locationsByName(query: searchText)
+                    
+                    guard !Task.isCancelled else { return }
+                    
+                    foundLocations = newFoundLocations
                 }
             }
             .onChange(of: selectedLocation) {

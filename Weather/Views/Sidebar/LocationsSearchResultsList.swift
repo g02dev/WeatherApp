@@ -7,7 +7,7 @@ struct LocationsSearchResultsList: View {
     var body: some View {
         List(selection: $selectedResult) {
             ForEach(results) { location in
-                Text(location.name)
+                Text(location.searchDisplayName)
             }
         }
         .listStyle(.plain)

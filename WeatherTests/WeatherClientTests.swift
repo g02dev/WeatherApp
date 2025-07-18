@@ -38,4 +38,17 @@ struct WeatherClientTests {
         
         #expect(weatherForecast.count == expectedWeatherForecastCount)
     }
+    
+    @Test
+    func findLocations() async throws {
+        let sampleDataLoader = SampleHTTPDataLoader(type: .locationsByName)
+        let weatherClient = WeatherClient(dataLoader: sampleDataLoader)
+        let expectedLocationsCount = 5
+        
+        let locations = try await weatherClient.findLocations(
+            query: "London"
+        )
+        
+        #expect(locations.count == expectedLocationsCount)
+    }
 }

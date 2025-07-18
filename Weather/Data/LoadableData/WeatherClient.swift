@@ -8,6 +8,17 @@ struct WeatherClient {
         self.dataLoader = dataLoader
     }
     
+    func findLocations(query: String) async throws -> [Location] {
+        let url = Self.locationsByNameURL(query: query)
+        let data = try await loadData(from: url)
+        let location = try processData(
+            data: data,
+            dataType: [LocationResponse].self,
+            finalType: [Location].self
+        )
+        return location
+    }
+    
     func getCurrentWeather(
         latitude: Double,
         longitude: Double,
@@ -57,6 +68,17 @@ private extension WeatherClient {
         components.host = "api.openweathermap.org"
         return components
     }()
+    
+    private static func locationsByNameURL(query: String) -> URL? {
+        var components = baseURLComponents
+        components.path = "/geo/1.0/direct"
+        components.queryItems = [
+            URLQueryItem(name: "q", value: query),
+            URLQueryItem(name: "limit", value: "5"),
+            URLQueryItem(name: "appid", value: apiKey),
+        ]
+        return components.url
+    }
     
     private static func currentWeatherURL(
         latitude: Double,
