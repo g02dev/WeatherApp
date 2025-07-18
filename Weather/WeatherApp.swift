@@ -9,6 +9,7 @@ struct WeatherApp: App {
         WindowGroup {
             ContentView()
                 .environment(weatherProvider)
+                .modelContainer(for: FavoriteLocation.self)
         }
     }
 }

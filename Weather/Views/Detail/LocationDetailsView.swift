@@ -1,9 +1,15 @@
 import SwiftUI
+import SwiftData
 
 struct LocationDetailsView: View {
     let location: Location
     
-    @State private var isFavorite: Bool = false
+    @Environment(\.modelContext) private var modelContext
+    @State private var favoriteLocation: FavoriteLocation?
+    
+    private var isFavorite: Bool {
+        favoriteLocation != nil
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -15,7 +21,7 @@ struct LocationDetailsView: View {
                 Spacer()
 
                 Button {
-                    isFavorite.toggle()
+                    handleHeartButtonTap()
                 } label: {
                     Image(systemName: isFavorite ? "heart.fill" : "heart")
                         .foregroundStyle(isFavorite ? .pink : .secondary)
@@ -29,6 +35,32 @@ struct LocationDetailsView: View {
             }
         }
         .padding()
+        .onChange(of: location, initial: true) {
+            favoriteLocation = fetchFavouriteLocation()
+        }
+    }
+    
+    private func handleHeartButtonTap() {
+        if let existingFavoriteLocation = fetchFavouriteLocation() {
+            modelContext.delete(existingFavoriteLocation)
+            favoriteLocation = nil
+        } else {
+            let newFavoriteLocation = FavoriteLocation(location)
+            favoriteLocation = newFavoriteLocation
+            modelContext.insert(newFavoriteLocation)
+        }
+    }
+    
+    private func fetchFavouriteLocation() -> FavoriteLocation? {
+        let latitude = location.latitude
+        let longitude = location.longitude
+        let fetchDescriptor = FetchDescriptor<FavoriteLocation>(
+            predicate: #Predicate {
+                $0.latitude == latitude && $0.longitude == longitude
+            }
+        )
+        let favoriteLocations = try? modelContext.fetch(fetchDescriptor)
+        return favoriteLocations?.first
     }
 }
 
