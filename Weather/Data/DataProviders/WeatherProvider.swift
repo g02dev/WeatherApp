@@ -27,4 +27,18 @@ final class WeatherProvider {
             return SampleWeather.currentWeather(for: location)
         }
     }
+    
+    func weatherForecast(for location: Location) async -> [Weather]  {
+        if let client = client {
+            let weather = try? await client.getWeatherForecast(
+                latitude: location.latitude,
+                longitude: location.longitude,
+                unitTemperature: unitTemperature
+            )
+            return weather ?? []
+        } else {
+            try? await Task.sleep(for: .milliseconds(.random(in: 10...1000)))
+            return SampleWeather.weatherForecast(for: location)
+        }
+    }
 }
