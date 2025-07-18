@@ -19,4 +19,4 @@
 Xcode 16, Swift 6, iOS 18.5
 
 #### Notes
-OpenWeather API key is not included into the project. To access all features, please place your API key in `WeatherClient.swift#63`
+OpenWeather API key is not included into the project. To access all features, please place your API key in `Weather/Data/LoadableData/WeatherClient.swift#63`
