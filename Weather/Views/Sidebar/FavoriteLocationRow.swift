@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FavouriteLocationRow: View {
+struct FavoriteLocationRow: View {
     let location: Location
     
     @Environment(WeatherProvider.self) var weatherProvider
@@ -60,12 +60,12 @@ struct FavouriteLocationRow: View {
 
 #Preview("Known weather", traits: .modifier(SampleWeatherProvider())) {
     List {
-        FavouriteLocationRow(location: SampleLocations.newYork.location)
+        FavoriteLocationRow(location: SampleLocations.newYork.location)
     }
 }
 
 #Preview("Unknown weather", traits: .modifier(SampleWeatherProvider())) {
     List {
-        FavouriteLocationRow(location: SampleLocations.unknown.location)
+        FavoriteLocationRow(location: SampleLocations.unknown.location)
     }
 }

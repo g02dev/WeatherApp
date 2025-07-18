@@ -1,14 +1,17 @@
 import SwiftUI
+import SwiftData
 
-struct LocationsList: View {
+struct FavoriteLocationsList: View {
     @Binding var selectedLocation: Location?
+    
+    @Query(sort: \FavoriteLocation.dateCreated, order: .forward)
+    private var favoriteLocations: [FavoriteLocation]
     
     var body: some View {
         List(selection: $selectedLocation) {
             Section {
-                let favouriteLocations = SampleLocations.favouriteLocations
-                ForEach(favouriteLocations) { location in
-                    FavouriteLocationRow(location: location)
+                ForEach(favoriteLocations, id: \.location) { favoriteLocation in
+                    FavoriteLocationRow(location: favoriteLocation.location)
                 }
             } header: {
                 Text("Favourites")
@@ -22,10 +25,12 @@ struct LocationsList: View {
         }
         .listRowSpacing(8)
         .listStyle(.insetGrouped)
+        .opacity(favoriteLocations.isEmpty ? 0 : 1)
     }
 }
 
 #Preview(traits: .modifier(SampleWeatherProvider())) {
     @Previewable @State var selectedLocation: Location?
-    LocationsList(selectedLocation: $selectedLocation)
+    FavoriteLocationsList(selectedLocation: $selectedLocation)
+        .modelContainer(previewModelContainer)
 }

@@ -3,7 +3,7 @@ import Foundation
 enum SampleLocations: CaseIterable {
     case unknown
     
-    // Favourite
+    // Favorite
     case london
     case edinburgh
     case paris
@@ -13,7 +13,7 @@ enum SampleLocations: CaseIterable {
     case nuuk
     case sydney
     
-    // Not Favourite
+    // Not Favorite
     case lisbon
     
     var location: Location {
@@ -95,7 +95,7 @@ enum SampleLocations: CaseIterable {
     
     static let allLocations: [Location] = allCases.map { $0.location }
     
-    static let favouriteLocations: [Location] = Array(allLocations[1...8])
+    static let favoriteLocations: [Location] = Array(allLocations[1...8])
     
     static func foundLocations(query: String) -> [Location] {
         let lowercasedQuery = query.lowercased()

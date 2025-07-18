@@ -11,7 +11,9 @@ struct ContentView: View {
         NavigationSplitView {
             Group {
                 if searchText.isEmpty {
-                    LocationsList(selectedLocation: $selectedLocation)
+                    FavoriteLocationsList(
+                        selectedLocation: $selectedLocation
+                    )
                 } else {
                     LocationsSearchResultsList(
                         results: foundLocations,
@@ -20,7 +22,7 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Weather")
-            .searchable(text: $searchText)
+            .searchable(text: $searchText, prompt: "Search for a city")
             .task(id: searchText) {
                 if searchText.isEmpty {
                     foundLocations = []
@@ -53,4 +55,5 @@ struct ContentView: View {
 
 #Preview(traits: .modifier(SampleWeatherProvider())) {
     ContentView()
+        .modelContainer(previewModelContainer)
 }
