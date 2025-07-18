@@ -25,11 +25,13 @@ struct SampleHTTPDataLoader: DataLoader {
 }
 
 enum SampleDataType {
+    case locationsByName
     case currentWeather
     case weatherForecast
     
     fileprivate var sampleJSONDataFilename: String {
         switch self {
+        case .locationsByName: "LocationsByName"
         case .currentWeather: "CurrentWeather"
         case .weatherForecast: "WeatherForecast"
         }

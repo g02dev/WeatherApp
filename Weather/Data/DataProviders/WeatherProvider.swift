@@ -14,6 +14,16 @@ final class WeatherProvider {
         self.unitTemperature = unitTemperature
     }
     
+    func locationsByName(query: String) async -> [Location] {
+        if let client = client {
+            let locations = try? await client.findLocations(query: query)
+            return locations ?? []
+        } else {
+            try? await Task.sleep(for: .milliseconds(.random(in: 10...100)))
+            return SampleLocations.foundLocations(query: query)
+        }
+    }
+    
     func currentWeather(for location: Location) async -> Weather?  {
         if let client = client {
             let weather = try? await client.getCurrentWeather(
