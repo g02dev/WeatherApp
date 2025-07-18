@@ -2,7 +2,7 @@ import Foundation
 
 // API response: https://openweathermap.org/weather-conditions
 extension WeatherCondition {
-    init(_ weatherConditionResponse: CurrentWeatherResponse.Weather) {
+    init(_ weatherConditionResponse: WeatherConditionResponse) {
         self = switch weatherConditionResponse.id {
         case 200...299: .thunderstorm
         case 300...399: .drizzle

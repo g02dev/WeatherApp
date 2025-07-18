@@ -26,6 +26,25 @@ struct WeatherClient {
         )
         return currentWeather
     }
+    
+    func getWeatherForecast(
+        latitude: Double,
+        longitude: Double,
+        unitTemperature: UnitTemperature
+    ) async throws -> [Weather] {
+        let url = Self.weatherForecastURL(
+            latitude: latitude,
+            longitude: longitude,
+            unitTemperature: unitTemperature
+        )
+        let data = try await loadData(from: url)
+        let weatherForecast = try processData(
+            data: data,
+            dataType: WeatherForecastResponse.self,
+            finalType: [Weather].self
+        )
+        return weatherForecast
+    }
 }
 
 private extension WeatherClient {
@@ -54,6 +73,22 @@ private extension WeatherClient {
         ]
         return components.url
     }
+
+    private static func weatherForecastURL(
+        latitude: Double,
+        longitude: Double,
+        unitTemperature: UnitTemperature
+    ) -> URL? {
+        var components = baseURLComponents
+        components.path = "/data/2.5/forecast"
+        components.queryItems = [
+            URLQueryItem(name: "lat", value: String(latitude)),
+            URLQueryItem(name: "lon", value: String(longitude)),
+            URLQueryItem(name: "units", value: unitTemperature.weatherClientValue),
+            URLQueryItem(name: "appid", value: apiKey),
+        ]
+        return components.url
+    }
     
     private static let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
@@ -69,13 +104,13 @@ private extension WeatherClient {
         return data
     }
     
-    private func processData<D: Decodable, F: Initializable>(
+    private func processData<D: Decodable & Convertable, F>(
         data: Data,
         dataType: D.Type,
         finalType: F.Type
-    ) throws -> F where F.DataSource == D {
+    ) throws -> F where D.FinalType == F {
         let responseData = try Self.decoder.decode(dataType, from: data)
-        let finalData = finalType.init(responseData)
+        let finalData = responseData.convert()
         
         guard let finalData else {
             throw LoadableDataError.invalidData

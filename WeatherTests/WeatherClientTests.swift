@@ -23,4 +23,19 @@ struct WeatherClientTests {
         
         #expect(currentWeather == expectedCurrentWeather)
     }
+    
+    @Test
+    func getWeatherForecast() async throws {
+        let sampleDataLoader = SampleHTTPDataLoader(type: .weatherForecast)
+        let weatherClient = WeatherClient(dataLoader: sampleDataLoader)
+        let expectedWeatherForecastCount = 4
+        
+        let weatherForecast = try await weatherClient.getWeatherForecast(
+            latitude: 44.34,
+            longitude: 10.99,
+            unitTemperature: .kelvin
+        )
+        
+        #expect(weatherForecast.count == expectedWeatherForecastCount)
+    }
 }

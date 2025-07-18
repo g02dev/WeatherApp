@@ -3,6 +3,7 @@ import SwiftUI
 struct WeatherForecastSection: View {
     let location: Location
     
+    @Environment(WeatherProvider.self) var weatherProvider
     @State private var forecast: [Weather] = []
     
     var body: some View {
@@ -16,19 +17,21 @@ struct WeatherForecastSection: View {
         .sectionTitle("5 Day Forecast")
         .scrollIndicators(.hidden)
         .onChange(of: location, initial: true) {
-            forecast = SampleWeather.weatherForecast(for: location)
+            Task {
+                forecast = await weatherProvider.weatherForecast(for: location)
+            }
         }
     }
 }
 
-#Preview("Known weather") {
+#Preview("Known weather", traits: .modifier(SampleWeatherProvider())) {
     let location = SampleLocations.newYork.location
     LocationDetailsContainer {
         WeatherForecastSection(location: location)
     }
 }
 
-#Preview("Unknown weather") {
+#Preview("Unknown weather", traits: .modifier(SampleWeatherProvider())) {
     let location = SampleLocations.unknown.location
     LocationDetailsContainer {
         WeatherForecastSection(location: location)
