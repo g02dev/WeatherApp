@@ -3,7 +3,8 @@ import SwiftUI
 struct FavoriteLocationRow: View {
     let location: Location
     
-    @Environment(WeatherProvider.self) var weatherProvider
+    @Environment(WeatherProvider.self) private var weatherProvider
+    
     @State private var currentWeather: Weather?
     
     var body: some View {
@@ -12,7 +13,7 @@ struct FavoriteLocationRow: View {
             Spacer()
             trailingWeatherInfo
         }
-        .task {
+        .task(id: location) {
             currentWeather = await weatherProvider.currentWeather(for: location)
         }
     }
