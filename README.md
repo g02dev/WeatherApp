@@ -1,4 +1,10 @@
-# Weather App
+<div align="center">
+  <img width="128" height="128" alt="Weather-rounded" src="https://github.com/user-attachments/assets/6d336cac-f79e-4206-a0ce-d442c3b778f6" />
+</div>
+
+<h1 align=center>
+  Weather App
+</h1>
 
 #### Functionality 
 - Search for a location
