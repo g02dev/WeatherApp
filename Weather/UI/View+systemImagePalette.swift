@@ -7,7 +7,7 @@ extension View {
 }
 
 private struct SystemImagePaletteModifier: ViewModifier {
-    var systemImagePalette: SystemImagePalette
+    let systemImagePalette: SystemImagePalette
 
     func body(content: Content) -> some View {
         content
