@@ -4,6 +4,7 @@ import SwiftData
 @Model
 final class FavoriteLocation {
     #Index<FavoriteLocation>([\.latitude, \.longitude], [\.dateCreated])
+    #Unique<FavoriteLocation>([\.latitude, \.longitude])
     
     var name: String
     var latitude: Double

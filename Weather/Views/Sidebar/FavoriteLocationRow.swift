@@ -24,13 +24,13 @@ struct FavoriteLocationRow: View {
             Text(location.name)
                 .font(.headline)
 
-            let dateString = currentWeather.map { weather in
+            let timeDisplayString = currentWeather.map { weather in
                 DateFormatting.shortLocalTime(
                     date: weather.timestamp,
                     timeZone: weather.timezone
                 )
             }
-            Text(dateString ?? "")
+            Text(timeDisplayString ?? "")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
